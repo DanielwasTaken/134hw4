@@ -8,15 +8,13 @@ function createPost(dialog, save, cancel, title, date, summary, list,esave){
     summary.value = "";
 }
 
-function addPost(dialog, save, cancel, title, date, summary, list, esave){
+function addPost(dialog, save, cancel, title, date, summary, list, esave, titles, dates, summaries, add){
     const post = document.createElement("li");
     const text = document.createElement("div");
     const p = document.createElement("p");
     p.innerHTML = title.value+"-"+date.value+"-"+summary.value;
     const edit = document.createElement("button");
     const del = document.createElement("button");
-    edit.addEventListener("click", ()=>{editFunc(p,dialog, save, cancel, title, date, summary, list,esave)});
-    del.addEventListener("click", ()=>{delFunc(list, post)});
     edit.innerHTML = "Edit";
     del.innerHTML = "Delete";
     text.appendChild(p);
@@ -24,31 +22,56 @@ function addPost(dialog, save, cancel, title, date, summary, list, esave){
     text.appendChild(del);
     post.appendChild(text);
     list.appendChild(post);
-    save.removeEventListener("click", ()=>{addPost(dialog, save, cancel, title, date, summary, list,esave)});
-    cancel.removeEventListener("click", ()=>{noPost(dialog, save, cancel)});
     dialog.close();
+    //titles.push(title.value);
+    //dates.push(dates.value);
+    //summaries.push(summary.value);
+    if(add == -1){
+    edit.addEventListener("click", ()=>{editFunc(p,dialog, save, cancel, title, date, summary, list,esave,titles, dates, summaries, titles.length)});
+    del.addEventListener("click", ()=>{delFunc(list, post,titles.length, titles, dates, summaries)});
+    titles[titles.length] = title.value;
+    dates[dates.length] = date.value;
+    summaries[summaries.length] = summary.value;
+    window.localStorage.setItem("titles", JSON.stringify(titles));
+    window.localStorage.setItem("dates", JSON.stringify(dates));
+    window.localStorage.setItem("summaries", JSON.stringify(summaries));
+    }
+    else{
+        del.addEventListener("click", ()=>{delFunc(list, post,add, titles, dates, summaries)});
+        edit.addEventListener("click", ()=>{editFunc(p,dialog, save, cancel, title, date, summary, list,esave,titles, dates, summaries, add)});
+    }
+
 
     
 }
 function noPost(dialog, save, cancel){
-    save.removeEventListener("click", ()=>{addPost(dialog, save, cancel, title, date, summary, list)});
-    cancel.removeEventListener("click", ()=>{noPost(dialog, save, cancel)});
     dialog.close();
 }
-function editFunc(p,dialog, save, cancel, title, date, summary, list,esave){
+function editFunc(p,dialog, save, cancel, title, date, summary, list,esave,titles, dates, summaries,index){
     dialog.show()
-    console.log("here");
     esave.style.display="block";
     save.style.display="none";
-    esave.addEventListener("click", function listener(){edit(p,dialog, save, cancel, title, date, summary, list,esave)},{once:true});
+    esave.addEventListener("click", function listener(){edit(p,dialog, save, cancel, title, date, summary, list,esave,titles, dates, summaries,index)},{once:true});
 
     
 }
 
-function edit(p,dialog, save, cancel, title, date, summary, list,esave){
+function edit(p,dialog, save, cancel, title, date, summary, list,esave,titles, dates, summaries, index){
+    titles[index] = title.value;
+    dates[index] = date.value;
+    summaries[index] = summary.value;
+    window.localStorage.setItem("titles", JSON.stringify(titles));
+    window.localStorage.setItem("dates", JSON.stringify(dates));
+    window.localStorage.setItem("summaries", JSON.stringify(summaries));
     p.innerHTML=title.value+"-"+date.value+"-"+summary.value;
     dialog.close();
 }
-function delFunc(list,post){
+function delFunc(list,post, index,titles, dates, summaries){
+    titles.splice(index,1);
+    dates.splice(index,1);
+    summaries.splice(index,1);
+    window.localStorage.setItem("titles", JSON.stringify(titles));
+    window.localStorage.setItem("dates", JSON.stringify(dates));
+    window.localStorage.setItem("summaries", JSON.stringify(summaries));
     list.removeChild(post);
 }
