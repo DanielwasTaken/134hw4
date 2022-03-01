@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Daniel Quach's Portfolio</title>
+    <meta name="author" content="Daniel Quach">
+    <meta name="description" content="This is a portfolio site for cse134B lab 2">
+    <link rel="icon" type="image/png" href="./images/favicon-32x32.png">
+    <script type="text/javascript" src="purify.min.js"></script>
+</head>
+
+<body>
+    <ul id="posts">
+        <!--<li><p>First post-1/1/2020-I started a blog <button type="button">Edit </button><button type="button">Delete</button></p></li> -->
+    </ul>
+    <button id="add">Add Blog Post</button>
+    <dialog id="dialog">
+        <p>Post Title:</p>
+        <input type="text" id="title">
+        <br>
+        <p id=>Post Date:</p>
+        <input type="text" id="date">
+        <br>
+        <p id=>Post Summary:</p>
+        <input type="text" id="summary">
+        <br>
+        <button type="button" id="cancel">Cancel</button>
+        <button type="button" id="save">Save</input>
+        <button type="button" id="esave">Save</button>
+        
+        
+    </dialog>
+
+
+    <script type="module">
+        import {createPost, addPost, noPost, edit} from './blog.js';
+
+            window.onload= () => {
+                let add=document.getElementById("add");
+                let dialog=document.getElementById("dialog");
+                let save = document.getElementById("save");
+                let cancel = document.getElementById("cancel");
+                let title = document.getElementById("title");
+                let date = document.getElementById("date");
+                let summary = document.getElementById("summary");
+                let list = document.getElementById("posts");
+                let esave = document.getElementById("esave");           
+                add.addEventListener("click", ()=>{createPost(dialog, save, cancel, title, date, summary, list,esave)});
+                save.addEventListener("click", ()=>{addPost(dialog, save, cancel, title, date, summary, list,esave)});
+                cancel.addEventListener("click", ()=>{noPost(dialog, save, cancel)});
+                title.value = "First post";
+                date.value = "3/29/2001";
+                summary.value = "I made a blog"
+                addPost(dialog, save, cancel, title, date, summary, list,esave);
+            }
+
+    </script>
+
+
+
+</body>
