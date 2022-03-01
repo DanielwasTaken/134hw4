@@ -68,7 +68,7 @@ function edit(p,dialog, save, cancel, title, date, summary, list,esave,titles, d
     p.innerHTML=title.value+"-"+date.value+"-"+summary.value;
     dialog.close();
 }
-function delFunc(list,post, index,titles, dates, summaries){{
+function delFunc(list,post, index,titles, dates, summaries){
     titles.splice(index,1);
     dates.splice(index,1);
     summaries.splice(index,1);
