@@ -17,11 +17,15 @@ function addPost(dialog, save, cancel, title, date, summary, list, esave){
     const del = document.createElement("button");
     edit.addEventListener("click", ()=>{editFunc(p,dialog, save, cancel, title, date, summary, list,esave)});
     del.addEventListener("click", ()=>{delFunc(list, post)});
-    edit.innerHTML = "Edit";
-    del.innerHTML = "Delete";
+    edit.style.backgroundImage= "url('./images/pencil.png')";
+    edit.style.width= "20px";
+    edit.style.height="20px";
+    del.style.backgroundImage= "url('./images/eraser.png')";
+    del.style.width= "20px";
+    del.style.height="20px";
     text.appendChild(p);
-    text.appendChild(edit);
-    text.appendChild(del);
+    p.appendChild(edit);
+    p.appendChild(del);
     post.appendChild(text);
     list.appendChild(post);
     save.removeEventListener("click", ()=>{addPost(dialog, save, cancel, title, date, summary, list,esave)});
@@ -51,4 +55,5 @@ function edit(p,dialog, save, cancel, title, date, summary, list,esave){
 }
 function delFunc(list,post){
     list.removeChild(post);
+    dialog.close();
 }
